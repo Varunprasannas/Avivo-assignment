@@ -6,7 +6,7 @@ import App from './App.jsx';
 const theme = extendTheme({
   config: {
     initialColorMode: 'light',
-    useSystemColorMode: false,
+    useSystemColorMode: true,
   },
   fonts: {
     heading: `'Inter', sans-serif`,
@@ -14,24 +14,44 @@ const theme = extendTheme({
   },
   colors: {
     brand: {
-      50: '#eff6ff',
-      100: '#dbeafe',
-      200: '#bfdbfe',
-      300: '#93c5fd',
-      400: '#60a5fa',
-      500: '#3b82f6',
-      600: '#2563eb',
-      700: '#1d4ed8',
-      800: '#1e40af',
-      900: '#1e3a8a',
+      50: '#f5f7ff',
+      100: '#eef2ff',
+      200: '#e0e7ff',
+      300: '#c7d2fe',
+      400: '#a5b4fc',
+      500: '#4f46e5', // Bright rich Indigo
+      600: '#4338ca',
+      700: '#3730a3',
+      800: '#312e81',
+      900: '#1e1b4b',
     },
-    dark: {
-      bg: '#f8fafc',
-      card: '#ffffff',
-      border: '#e2e8f0',
-      hover: '#f1f5f9',
-      text: '#0f172a',
-      muted: '#64748b',
+  },
+  semanticTokens: {
+    colors: {
+      'dark.bg': {
+        default: '#f5f8ff',
+        _dark: '#090d16',
+      },
+      'dark.card': {
+        default: '#ffffff',
+        _dark: '#111827',
+      },
+      'dark.border': {
+        default: '#e2e8f0',
+        _dark: 'rgba(255, 255, 255, 0.08)',
+      },
+      'dark.hover': {
+        default: '#f1f5f9',
+        _dark: '#1e293b',
+      },
+      'dark.text': {
+        default: '#0f172a',
+        _dark: '#f8fafc',
+      },
+      'dark.muted': {
+        default: '#64748b',
+        _dark: '#94a3b8',
+      },
     },
   },
   styles: {
@@ -40,6 +60,8 @@ const theme = extendTheme({
         bg: 'dark.bg',
         color: 'dark.text',
         fontFamily: `'Inter', sans-serif`,
+        transitionProperty: 'background-color, color',
+        transitionDuration: '0.2s',
       },
     },
   },

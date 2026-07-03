@@ -1,4 +1,4 @@
-# Avivo User Directory — Frontend
+# User Directory — Frontend
 
 This is a responsive, highly-polished React single page application built to view, search, and manage a directory of users. It integrates directly with the [Avivo Users Backend API](../README.md) and falls back gracefully to `https://dummyjson.com/users` if the local API is not available.
 

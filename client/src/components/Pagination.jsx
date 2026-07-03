@@ -3,11 +3,10 @@ import {
   Flex,
   Text,
   Button,
-  ButtonGroup,
   Select,
   HStack,
   IconButton,
-  Box,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   ChevronLeftIcon,
@@ -61,6 +60,11 @@ const Pagination = ({
   };
 
   const pageNumbers = getPageNumbers();
+  const pagShadow = useColorModeValue('0 4px 20px rgba(0, 0, 0, 0.02)', '0 4px 20px rgba(0, 0, 0, 0.15)');
+  const selectBg = useColorModeValue('white', '#111827');
+  const optionBg = useColorModeValue('#ffffff', '#111827');
+  const optionColor = useColorModeValue('#0f172a', '#f8fafc');
+  const btnBg = useColorModeValue('white', 'rgba(255, 255, 255, 0.03)');
 
   return (
     <Flex
@@ -68,28 +72,27 @@ const Pagination = ({
       justifyContent="space-between"
       alignItems="center"
       gap={4}
-      mx={{ base: 4, md: 8 }}
       my={6}
       px={6}
       py={4}
       bg="dark.card"
-      borderRadius="xl"
+      borderRadius="2xl"
       border="1px solid"
       borderColor="dark.border"
-      boxShadow="0 4px 20px rgba(0, 0, 0, 0.02)"
+      boxShadow={pagShadow}
     >
       {/* Entries Info */}
       <Text fontSize="sm" color="dark.muted" fontWeight="500">
         Showing{' '}
-        <Text as="span" color="dark.text" fontWeight="bold">
+        <Text as="span" color="dark.text" fontWeight="700">
           {startIndex}
         </Text>{' '}
         to{' '}
-        <Text as="span" color="dark.text" fontWeight="bold">
+        <Text as="span" color="dark.text" fontWeight="700">
           {endIndex}
         </Text>{' '}
         of{' '}
-        <Text as="span" color="brand.600" fontWeight="bold">
+        <Text as="span" color="brand.500" fontWeight="700">
           {totalCount}
         </Text>{' '}
         entries
@@ -99,13 +102,13 @@ const Pagination = ({
       <Flex
         direction={{ base: 'column', sm: 'row' }}
         alignItems="center"
-        gap={4}
+        gap={5}
         w={{ base: 'full', sm: 'auto' }}
         justifyContent="center"
       >
         {/* Page Size Selector */}
         <HStack spacing={2} minW="140px" justifyContent="center">
-          <Text fontSize="xs" color="dark.muted" fontWeight="600" textTransform="uppercase">
+          <Text fontSize="xs" color="dark.muted" fontWeight="700" textTransform="uppercase" letterSpacing="wider">
             Show
           </Text>
           <Select
@@ -115,37 +118,40 @@ const Pagination = ({
               setPageSize(Number(e.target.value));
               setCurrentPage(1);
             }}
-            borderRadius="md"
-            bg="dark.bg"
+            borderRadius="xl"
+            bg={selectBg}
             borderColor="dark.border"
             color="dark.text"
             w="75px"
             _hover={{ borderColor: 'brand.400' }}
-            _focus={{ borderColor: 'brand.500', boxShadow: 'none' }}
+            _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
           >
-            <option value={8}>8</option>
-            <option value={12}>12</option>
-            <option value={24}>24</option>
-            <option value={48}>48</option>
-            <option value={100}>100</option>
+            <option value={8} style={{ background: optionBg, color: optionColor }}>8</option>
+            <option value={12} style={{ background: optionBg, color: optionColor }}>12</option>
+            <option value={24} style={{ background: optionBg, color: optionColor }}>24</option>
+            <option value={48} style={{ background: optionBg, color: optionColor }}>48</option>
+            <option value={100} style={{ background: optionBg, color: optionColor }}>100</option>
           </Select>
-          <Text fontSize="xs" color="dark.muted" fontWeight="600" textTransform="uppercase">
+          <Text fontSize="xs" color="dark.muted" fontWeight="700" textTransform="uppercase" letterSpacing="wider">
             per page
           </Text>
         </HStack>
 
         {/* Buttons */}
-        <ButtonGroup isAttached size="sm" variant="outline" bg="dark.bg" borderRadius="md" overflow="hidden">
+        <HStack spacing={1.5} justifyContent="center">
           {/* First Page */}
           <IconButton
             aria-label="First page"
             icon={<ArrowLeftIcon fontSize="8px" />}
             onClick={() => handlePageChange(1)}
-            disabled={currentPage === 1}
             isDisabled={currentPage === 1}
+            variant="outline"
+            bg={btnBg}
             borderColor="dark.border"
             color="dark.text"
             _hover={{ bg: 'dark.hover' }}
+            borderRadius="xl"
+            size="sm"
           />
 
           {/* Previous Page */}
@@ -153,11 +159,14 @@ const Pagination = ({
             aria-label="Previous page"
             icon={<ChevronLeftIcon fontSize="16px" />}
             onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
             isDisabled={currentPage === 1}
+            variant="outline"
+            bg={btnBg}
             borderColor="dark.border"
             color="dark.text"
             _hover={{ bg: 'dark.hover' }}
+            borderRadius="xl"
+            size="sm"
           />
 
           {/* Page Numbers */}
@@ -167,11 +176,11 @@ const Pagination = ({
                 <Button
                   key={`ellipsis-${index}`}
                   isDisabled
-                  disabled
-                  borderColor="dark.border"
+                  variant="ghost"
                   color="dark.muted"
-                  bg="transparent"
-                  px={3}
+                  px={1}
+                  minW={8}
+                  size="sm"
                 >
                   ...
                 </Button>
@@ -184,12 +193,16 @@ const Pagination = ({
                 key={page}
                 onClick={() => handlePageChange(page)}
                 colorScheme={isCurrent ? 'brand' : 'gray'}
-                bg={isCurrent ? 'brand.500' : 'transparent'}
+                variant={isCurrent ? 'solid' : 'outline'}
+                bg={isCurrent ? 'brand.500' : btnBg}
                 color={isCurrent ? 'white' : 'dark.text'}
                 _hover={{ bg: isCurrent ? 'brand.600' : 'dark.hover' }}
                 borderColor="dark.border"
-                fontWeight={isCurrent ? 'bold' : 'normal'}
-                px={4}
+                fontWeight="700"
+                borderRadius="xl"
+                size="sm"
+                minW={8}
+                px={3}
               >
                 {page}
               </Button>
@@ -201,11 +214,14 @@ const Pagination = ({
             aria-label="Next page"
             icon={<ChevronRightIcon fontSize="16px" />}
             onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
             isDisabled={currentPage === totalPages}
+            variant="outline"
+            bg={btnBg}
             borderColor="dark.border"
             color="dark.text"
             _hover={{ bg: 'dark.hover' }}
+            borderRadius="xl"
+            size="sm"
           />
 
           {/* Last Page */}
@@ -213,13 +229,16 @@ const Pagination = ({
             aria-label="Last page"
             icon={<ArrowRightIcon fontSize="8px" />}
             onClick={() => handlePageChange(totalPages)}
-            disabled={currentPage === totalPages}
             isDisabled={currentPage === totalPages}
+            variant="outline"
+            bg={btnBg}
             borderColor="dark.border"
             color="dark.text"
             _hover={{ bg: 'dark.hover' }}
+            borderRadius="xl"
+            size="sm"
           />
-        </ButtonGroup>
+        </HStack>
       </Flex>
     </Flex>
   );

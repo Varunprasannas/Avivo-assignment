@@ -15,6 +15,7 @@ import {
   Grid,
   GridItem,
   useToast,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 const AddUserModal = ({ isOpen, onClose, onAdd }) => {
@@ -96,9 +97,14 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
     onClose();
   };
 
+  const inputBg = useColorModeValue('dark.bg', 'rgba(255,255,255,0.01)');
+  const optionBg = useColorModeValue('#ffffff', '#111827');
+  const optionColor = useColorModeValue('#0f172a', '#f8fafc');
+  const headerBorder = useColorModeValue('gray.100', 'rgba(255, 255, 255, 0.05)');
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg" scrollBehavior="inside">
-      <ModalOverlay backdropFilter="blur(8px)" bg="rgba(0, 0, 0, 0.2)" />
+      <ModalOverlay backdropFilter="blur(12px)" bg="rgba(0, 0, 0, 0.3)" />
       <ModalContent
         bg="dark.card"
         border="1px solid"
@@ -109,17 +115,18 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
         onSubmit={handleSubmit}
         mx={4}
         maxH="calc(100vh - 40px)"
+        boxShadow="0 20px 50px rgba(0, 0, 0, 0.3)"
       >
-        <ModalHeader borderBottom="1px solid" borderColor="dark.border">
-          Add User
+        <ModalHeader borderBottom="1px solid" borderColor={headerBorder} fontWeight="800" fontSize="lg">
+          Add Directory Profile
         </ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton borderRadius="xl" />
         
         <ModalBody py={6}>
           <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
             <GridItem>
               <FormControl isRequired>
-                <FormLabel fontSize="sm" color="dark.muted">
+                <FormLabel fontSize="xs" fontWeight="700" color="dark.muted" textTransform="uppercase" letterSpacing="wider">
                   First Name
                 </FormLabel>
                 <Input
@@ -127,18 +134,19 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
                   value={formData.firstName}
                   onChange={handleChange}
                   placeholder="e.g. John"
-                  bg="dark.bg"
+                  bg={inputBg}
                   border="1px solid"
                   borderColor="dark.border"
+                  borderRadius="xl"
                   _hover={{ borderColor: 'brand.400' }}
-                  _focus={{ borderColor: 'brand.500' }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
                 />
               </FormControl>
             </GridItem>
             
             <GridItem>
               <FormControl isRequired>
-                <FormLabel fontSize="sm" color="dark.muted">
+                <FormLabel fontSize="xs" fontWeight="700" color="dark.muted" textTransform="uppercase" letterSpacing="wider">
                   Last Name
                 </FormLabel>
                 <Input
@@ -146,18 +154,19 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
                   value={formData.lastName}
                   onChange={handleChange}
                   placeholder="e.g. Doe"
-                  bg="dark.bg"
+                  bg={inputBg}
                   border="1px solid"
                   borderColor="dark.border"
+                  borderRadius="xl"
                   _hover={{ borderColor: 'brand.400' }}
-                  _focus={{ borderColor: 'brand.500' }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
                 />
               </FormControl>
             </GridItem>
 
             <GridItem colSpan={{ base: 1, md: 2 }}>
               <FormControl isRequired>
-                <FormLabel fontSize="sm" color="dark.muted">
+                <FormLabel fontSize="xs" fontWeight="700" color="dark.muted" textTransform="uppercase" letterSpacing="wider">
                   Email Address
                 </FormLabel>
                 <Input
@@ -166,18 +175,19 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="e.g. john.doe@example.com"
-                  bg="dark.bg"
+                  bg={inputBg}
                   border="1px solid"
                   borderColor="dark.border"
+                  borderRadius="xl"
                   _hover={{ borderColor: 'brand.400' }}
-                  _focus={{ borderColor: 'brand.500' }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
                 />
               </FormControl>
             </GridItem>
 
             <GridItem colSpan={{ base: 1, md: 2 }}>
               <FormControl isRequired>
-                <FormLabel fontSize="sm" color="dark.muted">
+                <FormLabel fontSize="xs" fontWeight="700" color="dark.muted" textTransform="uppercase" letterSpacing="wider">
                   Company Name
                 </FormLabel>
                 <Input
@@ -185,18 +195,19 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
                   value={formData.companyName}
                   onChange={handleChange}
                   placeholder="e.g. Acme Corporation"
-                  bg="dark.bg"
+                  bg={inputBg}
                   border="1px solid"
                   borderColor="dark.border"
+                  borderRadius="xl"
                   _hover={{ borderColor: 'brand.400' }}
-                  _focus={{ borderColor: 'brand.500' }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
                 />
               </FormControl>
             </GridItem>
 
             <GridItem>
               <FormControl isRequired>
-                <FormLabel fontSize="sm" color="dark.muted">
+                <FormLabel fontSize="xs" fontWeight="700" color="dark.muted" textTransform="uppercase" letterSpacing="wider">
                   Job Title
                 </FormLabel>
                 <Input
@@ -204,41 +215,43 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
                   value={formData.jobTitle}
                   onChange={handleChange}
                   placeholder="e.g. Lead Engineer"
-                  bg="dark.bg"
+                  bg={inputBg}
                   border="1px solid"
                   borderColor="dark.border"
+                  borderRadius="xl"
                   _hover={{ borderColor: 'brand.400' }}
-                  _focus={{ borderColor: 'brand.500' }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
                 />
               </FormControl>
             </GridItem>
 
             <GridItem>
               <FormControl isRequired>
-                <FormLabel fontSize="sm" color="dark.muted">
+                <FormLabel fontSize="xs" fontWeight="700" color="dark.muted" textTransform="uppercase" letterSpacing="wider">
                   Role
                 </FormLabel>
                 <Select
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  bg="dark.bg"
+                  bg={inputBg}
                   border="1px solid"
                   borderColor="dark.border"
+                  borderRadius="xl"
                   color="dark.text"
                   _hover={{ borderColor: 'brand.400' }}
-                  _focus={{ borderColor: 'brand.500' }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
                 >
-                  <option value="user" style={{ background: '#ffffff', color: '#0f172a' }}>User</option>
-                  <option value="moderator" style={{ background: '#ffffff', color: '#0f172a' }}>Moderator</option>
-                  <option value="admin" style={{ background: '#ffffff', color: '#0f172a' }}>Admin</option>
+                  <option value="user" style={{ background: optionBg, color: optionColor }}>User</option>
+                  <option value="moderator" style={{ background: optionBg, color: optionColor }}>Moderator</option>
+                  <option value="admin" style={{ background: optionBg, color: optionColor }}>Admin</option>
                 </Select>
               </FormControl>
             </GridItem>
 
             <GridItem colSpan={{ base: 1, md: 2 }}>
               <FormControl isRequired>
-                <FormLabel fontSize="sm" color="dark.muted">
+                <FormLabel fontSize="xs" fontWeight="700" color="dark.muted" textTransform="uppercase" letterSpacing="wider">
                   Country
                 </FormLabel>
                 <Input
@@ -246,23 +259,38 @@ const AddUserModal = ({ isOpen, onClose, onAdd }) => {
                   value={formData.country}
                   onChange={handleChange}
                   placeholder="e.g. United States"
-                  bg="dark.bg"
+                  bg={inputBg}
                   border="1px solid"
                   borderColor="dark.border"
+                  borderRadius="xl"
                   _hover={{ borderColor: 'brand.400' }}
-                  _focus={{ borderColor: 'brand.500' }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px rgba(139, 92, 246, 0.4)' }}
                 />
               </FormControl>
             </GridItem>
           </Grid>
         </ModalBody>
 
-        <ModalFooter borderTop="1px solid" borderColor="dark.border">
-          <Button variant="ghost" mr={3} onClick={onClose} color="dark.text" _hover={{ bg: 'dark.hover' }}>
+        <ModalFooter borderTop="1px solid" borderColor={headerBorder} gap={2}>
+          <Button variant="ghost" onClick={onClose} color="dark.text" _hover={{ bg: 'dark.hover' }} borderRadius="xl" size="sm">
             Cancel
           </Button>
-          <Button type="submit" colorScheme="brand">
-            Add User
+          <Button
+            type="submit"
+            colorScheme="brand"
+            borderRadius="xl"
+            size="sm"
+            px={5}
+            boxShadow="0 4px 12px rgba(139, 92, 246, 0.25)"
+            _hover={{
+              transform: 'translateY(-0.5px)',
+              boxShadow: '0 6px 16px rgba(139, 92, 246, 0.35)',
+            }}
+            _active={{
+              transform: 'translateY(0.5px)',
+            }}
+          >
+            Create User
           </Button>
         </ModalFooter>
       </ModalContent>

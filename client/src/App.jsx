@@ -12,8 +12,11 @@ import {
   AlertDescription,
   Button,
   useDisclosure,
+  SlideFade,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import Navbar from './components/Navbar';
+import StatsDashboard from './components/StatsDashboard';
 import SearchBar from './components/SearchBar';
 import UserTable from './components/UserTable';
 import UserGrid from './components/UserGrid';
@@ -25,6 +28,7 @@ function App() {
   const [viewMode, setViewMode] = useState('grid');
   const {
     users,
+    allFilteredUsers,
     totalCount,
     filteredCount,
     loading,
@@ -46,15 +50,67 @@ function App() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const bgImg = useColorModeValue(
+    'radial-gradient(rgba(79, 70, 229, 0.07) 1.5px, transparent 1.5px)',
+    'radial-gradient(rgba(255, 255, 255, 0.02) 1.5px, transparent 1.5px)'
+  );
+
   return (
-    <Box minH="100vh" bg="dark.bg" color="dark.text" pb={12}>
+    <Box
+      minH="100vh"
+      bg="dark.bg"
+      bgImage={bgImg}
+      bgSize="24px 24px"
+      color="dark.text"
+      pb={12}
+      position="relative"
+      overflow="hidden"
+    >
+      {/* Decorative organic gradient blobs */}
+      <Box
+        position="absolute"
+        top="-10%"
+        left="-10%"
+        w="50vw"
+        h="50vw"
+        borderRadius="full"
+        bg="linear-gradient(135deg, rgba(79, 70, 229, 0.16) 0%, rgba(139, 92, 246, 0.16) 100%)"
+        filter="blur(110px)"
+        zIndex="0"
+        pointerEvents="none"
+      />
+      <Box
+        position="absolute"
+        top="25%"
+        right="-10%"
+        w="40vw"
+        h="40vw"
+        borderRadius="full"
+        bg="linear-gradient(135deg, rgba(236, 72, 153, 0.14) 0%, rgba(79, 70, 229, 0.14) 100%)"
+        filter="blur(130px)"
+        zIndex="0"
+        pointerEvents="none"
+      />
+      <Box
+        position="absolute"
+        bottom="-10%"
+        left="15%"
+        w="35vw"
+        h="35vw"
+        borderRadius="full"
+        bg="linear-gradient(135deg, rgba(59, 130, 246, 0.13) 0%, rgba(79, 70, 229, 0.13) 100%)"
+        filter="blur(110px)"
+        zIndex="0"
+        pointerEvents="none"
+      />
+
       <Navbar
         onRefresh={refreshUsers}
         onAddClick={onOpen}
         isLoading={loading}
       />
 
-      <Container maxW="container.xl" pt={6}>
+      <Container maxW="container.xl" pt={6} position="relative" zIndex={1}>
         {error ? (
           <Center py={16}>
             <Alert
@@ -99,7 +155,8 @@ function App() {
             </VStack>
           </Center>
         ) : (
-          <>
+          <SlideFade in={!loading} offsetY="15px">
+            <StatsDashboard users={allFilteredUsers} />
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}
@@ -123,7 +180,7 @@ function App() {
               startIndex={startIndex}
               endIndex={endIndex}
             />
-          </>
+          </SlideFade>
         )}
       </Container>
 

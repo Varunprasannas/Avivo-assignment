@@ -9,13 +9,29 @@ import {
   Text,
   Flex,
   ButtonGroup,
-  HStack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { SearchIcon, SmallCloseIcon, HamburgerIcon, DragHandleIcon } from '@chakra-ui/icons';
 
 const SearchBar = ({ value, onChange, filteredCount, totalCount, viewMode, setViewMode }) => {
+  const containerBg = useColorModeValue('white', '#111827');
+  const inputBg = useColorModeValue('#f8fafc', 'rgba(255, 255, 255, 0.02)');
+  const activeColor = useColorModeValue('brand.500', 'brand.400');
+  const hoverClearColor = useColorModeValue('brand.500', 'brand.300');
+  const barShadow = useColorModeValue('0 4px 20px rgba(0, 0, 0, 0.02)', '0 4px 20px rgba(0, 0, 0, 0.2)');
+
   return (
-    <Box w="full" px={{ base: 4, md: 8 }} py={4}>
+    <Box
+      w="full"
+      px={{ base: 4, md: 6 }}
+      py={4}
+      bg={containerBg}
+      borderRadius="2xl"
+      border="1px solid"
+      borderColor="dark.border"
+      boxShadow={barShadow}
+      mb={6}
+    >
       <Flex
         direction={{ base: 'column', md: 'row' }}
         justifyContent="space-between"
@@ -30,17 +46,19 @@ const SearchBar = ({ value, onChange, filteredCount, totalCount, viewMode, setVi
             placeholder="Search by name, company, role, country..."
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            bg="dark.card"
+            bg={inputBg}
             border="1px solid"
             borderColor="dark.border"
             color="dark.text"
             borderRadius="xl"
-            _placeholder={{ color: 'dark.muted' }}
+            _placeholder={{ color: 'dark.muted', fontSize: 'sm' }}
             _hover={{ borderColor: 'brand.400' }}
             _focus={{
               borderColor: 'brand.500',
-              boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.6)',
+              boxShadow: '0 0 0 2px rgba(79, 70, 229, 0.15)',
+              bg: containerBg,
             }}
+            transition="all 0.2s"
           />
           {value && (
             <InputRightElement>
@@ -50,7 +68,7 @@ const SearchBar = ({ value, onChange, filteredCount, totalCount, viewMode, setVi
                 size="sm"
                 variant="ghost"
                 color="dark.muted"
-                _hover={{ color: 'white', bg: 'transparent' }}
+                _hover={{ color: hoverClearColor, bg: 'transparent' }}
                 onClick={() => onChange('')}
               />
             </InputRightElement>
@@ -62,38 +80,42 @@ const SearchBar = ({ value, onChange, filteredCount, totalCount, viewMode, setVi
           alignItems="center"
           gap={6}
         >
-          <Text fontSize="sm" color="dark.muted" fontWeight="500">
+          <Text fontSize="sm" color="dark.muted" fontWeight="600">
             Showing{' '}
-            <Text as="span" color="brand.600" fontWeight="bold">
+            <Text as="span" color={activeColor} fontWeight="800">
               {filteredCount}
             </Text>{' '}
             of{' '}
-            <Text as="span" color="dark.text" fontWeight="bold">
+            <Text as="span" color="dark.text" fontWeight="800">
               {totalCount}
             </Text>{' '}
             users
           </Text>
 
-          <ButtonGroup isAttached size="sm" variant="outline" bg="dark.card" borderRadius="lg" overflow="hidden">
+          <ButtonGroup size="sm" variant="outline" spacing={2}>
             <IconButton
               aria-label="List View"
               icon={<HamburgerIcon />}
               onClick={() => setViewMode('list')}
-              colorScheme={viewMode === 'list' ? 'brand' : 'gray'}
               bg={viewMode === 'list' ? 'brand.500' : 'transparent'}
-              color={viewMode === 'list' ? 'white' : 'dark.text'}
+              color={viewMode === 'list' ? 'white' : activeColor}
+              borderColor={viewMode === 'list' ? 'brand.500' : 'dark.border'}
               _hover={{ bg: viewMode === 'list' ? 'brand.600' : 'dark.hover' }}
-              borderColor="dark.border"
+              borderRadius="xl"
+              w="36px"
+              h="36px"
             />
             <IconButton
               aria-label="Grid View"
               icon={<DragHandleIcon />}
               onClick={() => setViewMode('grid')}
-              colorScheme={viewMode === 'grid' ? 'brand' : 'gray'}
               bg={viewMode === 'grid' ? 'brand.500' : 'transparent'}
-              color={viewMode === 'grid' ? 'white' : 'dark.text'}
+              color={viewMode === 'grid' ? 'white' : activeColor}
+              borderColor={viewMode === 'grid' ? 'brand.500' : 'dark.border'}
               _hover={{ bg: viewMode === 'grid' ? 'brand.600' : 'dark.hover' }}
-              borderColor="dark.border"
+              borderRadius="xl"
+              w="36px"
+              h="36px"
             />
           </ButtonGroup>
         </Flex>

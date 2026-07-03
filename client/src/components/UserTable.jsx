@@ -5,17 +5,19 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
   TableContainer,
   Box,
   Text,
   Center,
   VStack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import UserRow from './UserRow';
 import { WarningIcon } from '@chakra-ui/icons';
 
 const UserTable = ({ users, onDelete }) => {
+  const headColor = useColorModeValue('dark.muted', 'gray.400');
+
   if (users.length === 0) {
     return (
       <Center py={16} px={4}>
@@ -35,33 +37,24 @@ const UserTable = ({ users, onDelete }) => {
   }
 
   return (
-    <Box
-      mx={{ base: 4, md: 8 }}
-      mb={8}
-      bg="dark.card"
-      borderRadius="2xl"
-      border="1px solid"
-      borderColor="dark.border"
-      overflow="hidden"
-      boxShadow="0 10px 30px rgba(0, 0, 0, 0.2)"
-    >
-      <TableContainer>
-        <Table variant="simple">
-          <Thead bg="rgba(241, 245, 249, 0.6)">
-            <Tr borderColor="dark.border">
-              <Th color="dark.muted" py={4} fontSize="xs" fontWeight="700">
+    <Box mb={8}>
+      <TableContainer overflowX="auto" style={{ overflowY: 'hidden' }}>
+        <Table variant="unstyled" style={{ borderCollapse: 'separate', borderSpacing: '0 12px', marginTop: '-12px' }}>
+          <Thead>
+            <Tr>
+              <Th color={headColor} py={2} px={6} fontSize="xs" fontWeight="800" textTransform="uppercase" letterSpacing="wider">
                 Name
               </Th>
-              <Th color="dark.muted" py={4} fontSize="xs" fontWeight="700">
+              <Th color={headColor} py={2} px={6} fontSize="xs" fontWeight="800" textTransform="uppercase" letterSpacing="wider">
                 Company Name
               </Th>
-              <Th color="dark.muted" py={4} fontSize="xs" fontWeight="700">
+              <Th color={headColor} py={2} px={6} fontSize="xs" fontWeight="800" textTransform="uppercase" letterSpacing="wider">
                 Role & Title
               </Th>
-              <Th color="dark.muted" py={4} fontSize="xs" fontWeight="700">
+              <Th color={headColor} py={2} px={6} fontSize="xs" fontWeight="800" textTransform="uppercase" letterSpacing="wider">
                 Country
               </Th>
-              <Th color="dark.muted" py={4} fontSize="xs" fontWeight="700" isNumeric>
+              <Th color={headColor} py={2} px={6} fontSize="xs" fontWeight="800" textTransform="uppercase" letterSpacing="wider" isNumeric>
                 Actions
               </Th>
             </Tr>

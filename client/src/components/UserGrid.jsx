@@ -4,10 +4,10 @@ import UserCard from './UserCard';
 
 const UserGrid = ({ users, onDelete }) => {
   return (
-    <Box mx={{ base: 4, md: 8 }} mb={8}>
+    <Box mb={8}>
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap={6}>
-        {users.map((user) => (
-          <UserCard key={user.id} user={user} onDelete={onDelete} />
+        {users.map((user, index) => (
+          <UserCard key={user.id} index={index} user={user} onDelete={onDelete} />
         ))}
       </SimpleGrid>
     </Box>

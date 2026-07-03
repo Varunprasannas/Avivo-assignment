@@ -4,43 +4,65 @@ import {
   Heading,
   Button,
   HStack,
-  Text,
-  Badge,
   IconButton,
   Tooltip,
+  useColorMode,
+  useColorModeValue,
+  Icon,
 } from '@chakra-ui/react';
-import { RepeatIcon, AddIcon } from '@chakra-ui/icons';
+import { RepeatIcon, AddIcon, SunIcon, MoonIcon } from '@chakra-ui/icons';
 
-const Navbar = ({ dataSource, onRefresh, onAddClick, isLoading }) => {
+// Custom User Directory Icon
+const UserDirIcon = (props) => (
+  <Icon viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </Icon>
+);
+
+const Navbar = ({ onRefresh, onAddClick, isLoading }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
+  
+  const headerBg = useColorModeValue('rgba(255, 255, 255, 0.75)', 'rgba(9, 13, 22, 0.75)');
+  const iconBg = useColorModeValue('rgba(79, 70, 229, 0.1)', 'rgba(165, 180, 252, 0.15)');
+  const headingColor = useColorModeValue('#1e1b4b', '#f8fafc'); // Deep navy in light mode
+
   return (
     <Flex
       as="header"
+      py={4}
+      px={{ base: 4, md: 8 }}
+      justifyContent="space-between"
+      alignItems="center"
+      bg={headerBg}
+      borderBottom="1px solid"
+      borderColor="dark.border"
+      backdropFilter="blur(16px)"
       position="sticky"
       top="0"
       zIndex="10"
-      backdropFilter="blur(12px)"
-      bg="rgba(255, 255, 255, 0.8)"
-      borderBottom="1px solid"
-      borderColor="dark.border"
-      py={4}
-      px={{ base: 3, md: 8 }}
-      justifyContent="space-between"
-      alignItems="center"
-      transition="all 0.3s ease"
     >
-      <Flex direction="column">
-        <HStack spacing={{ base: 1.5, sm: 2 }} align="center">
-          <Heading size="md" fontSize={{ base: 'md', sm: 'lg' }} fontWeight="800" bgGradient="linear(to-r, brand.500, brand.700)" bgClip="text">
-            AVIVO
-          </Heading>
-          <Text fontWeight="600" color="dark.text" fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="nowrap">
-            User Directory
-          </Text>
-        </HStack>
+      <Flex align="center" gap={3}>
+        <Flex
+          w="40px"
+          h="40px"
+          align="center"
+          justify="center"
+          borderRadius="xl"
+          bg={iconBg}
+          color="brand.500"
+        >
+          <UserDirIcon boxSize={5} />
+        </Flex>
+        <Heading fontSize={{ base: 'lg', sm: 'xl' }} fontWeight="900" color={headingColor} letterSpacing="-0.02em">
+          User Directory
+        </Heading>
       </Flex>
 
-      <HStack spacing={{ base: 1.5, md: 3 }}>
-        <Tooltip label="Refresh user list" placement="bottom">
+      <HStack spacing={{ base: 2, md: 3.5 }}>
+        <Tooltip label="Refresh directory data" placement="bottom">
           <IconButton
             aria-label="Refresh users"
             icon={<RepeatIcon />}
@@ -50,7 +72,21 @@ const Navbar = ({ dataSource, onRefresh, onAddClick, isLoading }) => {
             color="dark.text"
             _hover={{ bg: 'dark.hover' }}
             _active={{ bg: 'dark.border' }}
-            borderRadius="lg"
+            borderRadius="xl"
+            size="sm"
+          />
+        </Tooltip>
+
+        <Tooltip label={`Switch to ${colorMode === 'light' ? 'Dark' : 'Light'} mode`} placement="bottom">
+          <IconButton
+            aria-label="Toggle theme"
+            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            onClick={toggleColorMode}
+            variant="ghost"
+            color="dark.text"
+            _hover={{ bg: 'dark.hover' }}
+            _active={{ bg: 'dark.border' }}
+            borderRadius="xl"
             size="sm"
           />
         </Tooltip>
@@ -60,16 +96,17 @@ const Navbar = ({ dataSource, onRefresh, onAddClick, isLoading }) => {
           onClick={onAddClick}
           colorScheme="brand"
           size="sm"
-          borderRadius="lg"
-          px={{ base: 3, md: 4 }}
-          boxShadow="0 4px 12px rgba(59, 130, 246, 0.3)"
+          borderRadius="xl"
+          px={{ base: 3.5, md: 5 }}
+          boxShadow="0 4px 14px rgba(79, 70, 229, 0.35)"
           _hover={{
             transform: 'translateY(-1px)',
-            boxShadow: '0 6px 20px rgba(59, 130, 246, 0.4)',
+            boxShadow: '0 6px 20px rgba(79, 70, 229, 0.45)',
           }}
           _active={{
             transform: 'translateY(1px)',
           }}
+          transition="all 0.2s"
         >
           Add User
         </Button>

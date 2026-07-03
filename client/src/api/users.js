@@ -14,7 +14,7 @@ export const fetchUsers = async () => {
     const response = await api.get('/users');
     return {
       users: response.data.users,
-      source: 'Local MySQL Backend API',
+      // source: 'Local MySQL Backend API',
     };
   } catch (error) {
     console.warn('Failed to fetch from backend API, falling back to dummyjson.com:', error);
