@@ -1,34 +1,40 @@
-# Avivo Users API
+# Avivo Full-Stack User Directory Application
 
-A Node.js REST API backed by MySQL that serves a mock user list modelled after the [dummyjson.com/users](https://dummyjson.com/users) endpoint. Built as part of a backend development assignment.
-
-
+This repository contains a full-stack user directory application built as a coding assignment. It consists of:
+1. **Backend**: A Node.js & Express REST API backed by MySQL that serves a mock user list modeled after [dummyjson.com/users](https://dummyjson.com/users).
+2. **Frontend**: A React application styled with Chakra UI and powered by Axios to search, view, add, and delete users with a fallback mode to external DummyJSON API.
 
 ## What's inside
 
-The project is organized into three main areas:
+The project is organized into the following areas:
 
-- **`sql/`** holds the raw SQL files — the schema definition and a seed file with 20 sample users.
-- **`scripts/`** contains Node.js scripts you can run with npm to set up the database without touching the MySQL CLI.
-- **`src/`** is the actual API — Express app, database config, model, controller, routes, and error handling all live here.
+- **`client/`** is the React frontend application (Vite, Chakra UI, Axios).
+- **`server/`** is the Node.js & Express backend API (Express, MySQL, dotenv).
 
 ```
 avivo-assignment/
-├── sql/
-│   ├── schema.sql
-│   └── seed.sql
-├── scripts/
-│   ├── migrate.js
-│   ├── seed.js
-│   └── seedFromApi.js
-└── src/
-    ├── server.js
-    ├── app.js
-    ├── config/db.js
-    ├── models/userModel.js
-    ├── controllers/userController.js
-    ├── routes/userRoutes.js
-    └── middleware/errorHandler.js
+├── client/              # React Frontend Application
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+└── server/              # Node.js Express Backend API
+    ├── sql/             # SQL Schemas & Seed Data
+    │   ├── schema.sql
+    │   └── seed.sql
+    ├── scripts/         # Database Setup Scripts
+    │   ├── migrate.js
+    │   ├── seed.js
+    │   └── seedFromApi.js
+    ├── src/             # Backend Code
+    │   ├── server.js
+    │   ├── app.js
+    │   ├── config/db.js
+    │   ├── models/userModel.js
+    │   ├── controllers/userController.js
+    │   ├── routes/userRoutes.js
+    │   └── middleware/errorHandler.js
+    ├── package.json
+    └── server.js
 ```
 
 
@@ -42,15 +48,17 @@ avivo-assignment/
 
 ## Getting started
 
-**1. Install dependencies**
+**1. Install Backend dependencies**
 
+Navigate to the `server` directory and run:
 ```bash
+cd server
 npm install
 ```
 
 **2. Set up your environment file**
 
-Copy the example file and fill in your MySQL password:
+Copy the example file inside the `server` folder and fill in your MySQL password:
 
 ```bash
 cp .env.example .env
@@ -70,7 +78,7 @@ NODE_ENV=development
 
 **3. Create the database and load sample data**
 
-This single command creates the tables and inserts 20 users:
+Run database setups inside the `server` folder:
 
 ```bash
 npm run setup
@@ -89,7 +97,9 @@ There is also an optional script that pulls the full live dataset directly from 
 npm run seed:api
 ```
 
-**4. Start the server**
+**4. Start the Backend API Server**
+
+Run the backend server inside the `server` folder:
 
 ```bash
 npm run dev
@@ -102,6 +112,18 @@ The server starts on `http://localhost:3000`. You should see:
    GET http://localhost:3000/users
    GET http://localhost:3000/health
 ```
+
+**5. Start the React Frontend App**
+
+Open a new terminal window, navigate to the `client` directory, install packages, and start the frontend:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+The React frontend starts on `http://localhost:5173`. In development, it automatically proxies API calls to `http://localhost:3000`. If you do not run the backend API or MySQL database, the React app will gracefully fall back to calling the live `https://dummyjson.com/users` API directly.
 
 ---
 

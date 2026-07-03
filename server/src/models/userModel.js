@@ -129,5 +129,73 @@ async function findAll({ limit, skip }) {
   return { users: rows.map(reshape), total: Number(total) };
 }
 
+async function create(user) {
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
 
-module.exports = { findAll };
+    // Set defaults for missing fields that are NOT NULL in the table
+    const age = user.age || 30;
+    const gender = user.gender || 'other';
+    const phone = user.phone || '+1 555-0199';
+    const username = user.username || `${user.firstName.toLowerCase()}.${user.lastName.toLowerCase()}.${Math.floor(Math.random() * 1000)}`;
+    const birthDate = user.birthDate || '1995-01-01';
+
+    // 1. Insert into users
+    const [userResult] = await connection.query(
+      `INSERT INTO users (
+        first_name, last_name, age, gender, email, phone, username, birth_date, image, role
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        user.firstName,
+        user.lastName,
+        age,
+        gender,
+        user.email,
+        phone,
+        username,
+        birthDate,
+        user.image || null,
+        user.role || 'user'
+      ]
+    );
+
+    const userId = userResult.insertId;
+
+    // 2. Insert into user_addresses (street, city, state are NOT NULL in schema)
+    const street = user.address?.address || '123 Main St';
+    const city = user.address?.city || 'Anytown';
+    const state = user.address?.state || 'CA';
+    const country = user.address?.country || 'United States';
+
+    await connection.query(
+      `INSERT INTO user_addresses (user_id, street, city, state, country)
+       VALUES (?, ?, ?, ?, ?)`,
+      [userId, street, city, state, country]
+    );
+
+    // 3. Insert into user_company
+    const companyName = user.company?.name || '';
+    const jobTitle = user.company?.title || '';
+    await connection.query(
+      `INSERT INTO user_company (user_id, name, title)
+       VALUES (?, ?, ?)`,
+      [userId, companyName, jobTitle]
+    );
+
+    await connection.commit();
+    return { id: userId, ...user };
+  } catch (err) {
+    await connection.rollback();
+    throw err;
+  } finally {
+    connection.release();
+  }
+}
+
+async function remove(id) {
+  const [result] = await pool.query('DELETE FROM users WHERE id = ?', [id]);
+  return result.affectedRows > 0;
+}
+
+module.exports = { findAll, create, remove };
